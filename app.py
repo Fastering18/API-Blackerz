@@ -108,7 +108,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
 def main():        
     loopbot = get_event_loop()
     botcollection = client["Infrastructure"]["botlist"]
-    loopbot.create_task(watch(botcollection))
+    ts = loopbot.create_task(watch(botcollection))
     try:
         print("get looped")
         loopbot.run_forever()
@@ -117,8 +117,9 @@ def main():
         print(kslhn)
     finally:
         if change_stream is not None:
-            change_stream.close() 
+            change_stream.close()
+        loopbot.run_until_complete(ts)
             
 #Thread(target=watch, args=[client["Infrastructure"]["botlist"]]).start()            
 #if __name__ == "__main__":
-#main()    #main()            
+main()    #main()            
