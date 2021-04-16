@@ -1,4 +1,9 @@
+import os
 from typing import List
+
+from motor.motor_tornado import MotorClient
+from bson.json_util import dumps
+from tornado.ioloop import IOLoop
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
@@ -43,7 +48,7 @@ html = """
 """
 
 
-class ConnectionManager:
+class ConnectionManagerBot:
     def __init__(self):
         self.active_connections: List[WebSocket] = []
 
@@ -60,11 +65,36 @@ class ConnectionManager:
     async def broadcast(self, message: str):
         for connection in self.active_connections:
             await connection.send_text(message)
+            
+    async def on_change(self, data):
+        await self.broadcast(dumps(data['fullDocument']))
 
 
-manager = ConnectionManager()
+manager = ConnectionManagerBot()
+client = MotorClient(os.environ.get("mongodb"))
 
 
+change_stream = None
+
+async def watch(collection):
+    global change_stream
+
+    async with collection.watch(full_document='updateLookup') as change_stream:
+        async for change in change_stream:
+            ConnectionManagerBot.on_change(change)
+
+
+loopbot = IOLoop.current()
+botcollection = client["Infrastructure"]["botlist"]
+loop.add_callback(watchbot, botcollection)
+try:
+    loop.start()
+except Exception as kslhn:
+    print(kslhn)
+finally:
+    if change_stream is not None:
+        change_stream.close()
+    
 @app.get("/")
 async def get():
     return HTMLResponse(html)
