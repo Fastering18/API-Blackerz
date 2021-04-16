@@ -108,7 +108,9 @@ def main():
     botcollection = client["Infrastructure"]["botlist"]
     loopbot.add_callback(watch, botcollection)
     try:
+        print("get looped")
         loopbot.start()
+        print("wyes")
     except Exception as kslhn:
         print(kslhn)
     finally:
