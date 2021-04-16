@@ -102,13 +102,18 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
         await manager.broadcast(f"Client #{client_id} left the chat")
 
         
-loopbot = IOLoop.current()
-botcollection = client["Infrastructure"]["botlist"]
-loopbot.add_callback(watch, botcollection)
-try:
-    loopbot.start()
-except Exception as kslhn:
-    print(kslhn)
-finally:
-    if change_stream is not None:
-        change_stream.close()        
+def main():        
+    loopbot = IOLoop.current()
+    botcollection = client["Infrastructure"]["botlist"]
+    loopbot.add_callback(watch, botcollection)
+    try:
+        loopbot.start()
+    except Exception as kslhn:
+        print(kslhn)
+    finally:
+        if change_stream is not None:
+            change_stream.close() 
+            
+            
+if __name__ == "__main__":
+    main()            
