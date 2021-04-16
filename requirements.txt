@@ -6,4 +6,5 @@ uvloop
 httptools
 motor
 dnspython
+tornado
 pymongo==3.11.3
