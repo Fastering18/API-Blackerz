@@ -2,3 +2,5 @@ fastapi
 websockets
 gunicorn
 uvicorn
+uvloop
+httptools
