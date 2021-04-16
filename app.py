@@ -82,18 +82,7 @@ async def watch(collection):
     async with collection.watch(full_document='updateLookup') as change_stream:
         async for change in change_stream:
             ConnectionManagerBot.on_change(change)
-
-
-loopbot = IOLoop.current()
-botcollection = client["Infrastructure"]["botlist"]
-loopbot.add_callback(watch, botcollection)
-try:
-    loopbot.start()
-except Exception as kslhn:
-    print(kslhn)
-finally:
-    if change_stream is not None:
-        change_stream.close()
+            
     
 @app.get("/")
 async def get():
@@ -111,3 +100,15 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
     except WebSocketDisconnect:
         manager.disconnect(websocket)
         await manager.broadcast(f"Client #{client_id} left the chat")
+
+        
+loopbot = IOLoop.current()
+botcollection = client["Infrastructure"]["botlist"]
+loopbot.add_callback(watch, botcollection)
+try:
+    loopbot.start()
+except Exception as kslhn:
+    print(kslhn)
+finally:
+    if change_stream is not None:
+        change_stream.close()        
