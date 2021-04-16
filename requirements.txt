@@ -4,3 +4,6 @@ gunicorn
 uvicorn
 uvloop
 httptools
+motor
+dnspython
+pymongo==3.11.3
