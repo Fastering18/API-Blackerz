@@ -86,9 +86,9 @@ async def watch(collection):
 
 loopbot = IOLoop.current()
 botcollection = client["Infrastructure"]["botlist"]
-loop.add_callback(watchbot, botcollection)
+loopbot.add_callback(watchbot, botcollection)
 try:
-    loop.start()
+    loopbot.start()
 except Exception as kslhn:
     print(kslhn)
 finally:
