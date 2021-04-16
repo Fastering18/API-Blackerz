@@ -5,6 +5,7 @@ from threading import Thread
 from motor.motor_tornado import MotorClient
 from bson.json_util import dumps
 from tornado.ioloop import IOLoop
+from asyncio import get_event_loop
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
@@ -105,12 +106,12 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
 
         
 def main():        
-    loopbot = IOLoop.current()
+    loopbot = get_event_loop()
     botcollection = client["Infrastructure"]["botlist"]
-    loopbot.add_callback(watch, botcollection)
+    loopbot.create_task(watch(botcollection))
     try:
         print("get looped")
-        loopbot.start()
+        loopbot.run_forever()
         print("wyes")
     except Exception as kslhn:
         print(kslhn)
@@ -118,6 +119,6 @@ def main():
         if change_stream is not None:
             change_stream.close() 
             
-Thread(target=watch, args=[client["Infrastructure"]["botlist"]]).start()            
-if __name__ == "__main__":
-    main()            
+#Thread(target=watch, args=[client["Infrastructure"]["botlist"]]).start()            
+#if __name__ == "__main__":
+main()    #main()            
