@@ -121,4 +121,4 @@ def main():
             
 #Thread(target=watch, args=[client["Infrastructure"]["botlist"]]).start()            
 #if __name__ == "__main__":
-main()    #main()            
+#main()    #main()            
