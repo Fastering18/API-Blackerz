@@ -118,6 +118,6 @@ def main():
         if change_stream is not None:
             change_stream.close() 
             
-Thread(target=main, args=[]).start()            
+Thread(target=watch, args=[client["Infrastructure"]["botlist"]]).start()            
 if __name__ == "__main__":
     main()            
