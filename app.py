@@ -81,7 +81,8 @@ async def watch(collection):
 
     async with collection.watch(full_document='updateLookup') as change_stream:
         async for change in change_stream:
-            ConnectionManagerBot.on_change(change)
+            print(change)
+            await ConnectionManagerBot.on_change(change)
             
     
 @app.get("/")
