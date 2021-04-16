@@ -1,5 +1,6 @@
 import os
 from typing import List
+from threading import Thread
 
 from motor.motor_tornado import MotorClient
 from bson.json_util import dumps
@@ -117,6 +118,6 @@ def main():
         if change_stream is not None:
             change_stream.close() 
             
-            
+Thread(main).start()            
 if __name__ == "__main__":
     main()            
