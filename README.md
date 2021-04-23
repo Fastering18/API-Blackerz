@@ -1,2 +1,2 @@
-# API-Blackerz
-Public API blackerz
+# Websocket-Blackerz  
+Currently testing only
